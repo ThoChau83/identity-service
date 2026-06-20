@@ -29,7 +29,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiRespone> handlingValidation(MethodArgumentNotValidException exception) {
         String enumKey = exception.getFieldError().getDefaultMessage();
-        ErrorCode errorCode = ErrorCode.valueOf(enumKey);
+        ErrorCode errorCode = ErrorCode.INVALID_KEY;
+
+        try{
+            errorCode = ErrorCode.valueOf(enumKey);
+        } catch(IllegalArgumentException e) {
+
+        }
+
 
         ApiRespone  apiRespone = new ApiRespone<>();
         apiRespone.setCode(errorCode.getCode());
