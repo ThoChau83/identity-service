@@ -1,6 +1,7 @@
 package org.example.identityservice.controller;
 
 import jakarta.validation.Valid;
+import org.example.identityservice.dto.request.ApiRespone;
 import org.example.identityservice.dto.request.UserCreationRequest;
 import org.example.identityservice.dto.request.UserUpdateRequest;
 import org.example.identityservice.entity.User;
@@ -17,9 +18,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    User createUser(@RequestBody @Valid UserCreationRequest request)
+    ApiRespone<User> createUser(@RequestBody @Valid UserCreationRequest request)
     {
-        return userService.createUser(request);
+        ApiRespone<User> apiRespone =  new ApiRespone<>();
+        apiRespone.setResult(userService.createUser(request));
+        return apiRespone;
     }
 
     @GetMapping

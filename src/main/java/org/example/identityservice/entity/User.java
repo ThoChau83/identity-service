@@ -60,11 +60,7 @@ public class User {
         this.username = username;
     }
 
-    public LocalDate getDob() {
-        return dob;
-    }
+    public LocalDate getDob() { return dob; }
 
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
+    public void setDob(LocalDate dob) { this.dob = dob; }
 }
