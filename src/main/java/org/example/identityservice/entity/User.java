@@ -18,12 +18,12 @@ import java.time.LocalDate;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-     String id;
-      String username;
-      String password;
-     String firstName;
-     String lastName;
-     LocalDate dob;
+    String id;
+    String username;
+    String password;
+    String firstName;
+    String lastName;
+    LocalDate dob;
 
 
 

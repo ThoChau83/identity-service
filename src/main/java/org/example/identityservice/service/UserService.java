@@ -6,6 +6,7 @@ import org.example.identityservice.dto.request.UserUpdateRequest;
 import org.example.identityservice.entity.User;
 import org.example.identityservice.exception.AppException;
 import org.example.identityservice.exception.ErrorCode;
+import org.example.identityservice.mapper.UserMapper;
 import org.example.identityservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     public User createUser(UserCreationRequest request){
 
@@ -41,12 +44,16 @@ public class UserService {
 
     //Update 1 user by id
     public User updateUser(String userId,UserUpdateRequest request){
-        User user  = getUser(userId);
+        User user = getUser(userId);
+        userMapper.updateUser(user, request);
 
-        user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDob(request.getDob());
+//        Cach lam cu
+//        User user  = getUser(userId);
+//
+//        user.setPassword(request.getPassword());
+//        user.setFirstName(request.getFirstName());
+//        user.setLastName(request.getLastName());
+//        user.setDob(request.getDob());
         return userRepository.save(user);
     }
 
