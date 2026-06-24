@@ -56,6 +56,8 @@ public class UserService {
         User user = getUser(userId);
         userMapper.updateUser(user, request);
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 //        Cach lam cu
 //        User user  = getUser(userId);
 //
