@@ -2,6 +2,7 @@ package org.example.identityservice.mapper;
 
 import org.example.identityservice.dto.request.UserCreationRequest;
 import org.example.identityservice.dto.request.UserUpdateRequest;
+import org.example.identityservice.dto.response.UserResponse;
 import org.example.identityservice.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -10,4 +11,5 @@ import org.mapstruct.MappingTarget;
 public interface UserMapper {
     User toUser(UserCreationRequest request);
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    UserResponse toUserResponse(User user);
 }

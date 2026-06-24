@@ -9,6 +9,8 @@ import org.example.identityservice.exception.ErrorCode;
 import org.example.identityservice.mapper.UserMapper;
 import org.example.identityservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -32,7 +34,14 @@ public class UserService {
                 .password(request.getPassword())
                 .dob(request.getDob())
                 .build();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
+//        cach dung mapper
+//        userMapper.toUser(request);
+
+
+//        cach dung thu cong
 //        user.setUsername(request.getUsername());
 //        user.setPassword(request.getPassword());
 //        user.setFirstName(request.getFirstName());

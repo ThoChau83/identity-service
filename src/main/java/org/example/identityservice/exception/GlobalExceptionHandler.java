@@ -1,33 +1,33 @@
 package org.example.identityservice.exception;
 
 
-import org.example.identityservice.dto.request.ApiRespone;
+import org.example.identityservice.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<ApiRespone> handlingRunTimeException(RuntimeException exception){
-        ApiRespone  apiRespone = new ApiRespone<>();
-        apiRespone.setCode(1001);
-        apiRespone.setMessage(exception.getMessage());
-        return ResponseEntity.badRequest().body(apiRespone);
+    ResponseEntity<ApiResponse> handlingRunTimeException(RuntimeException exception){
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(1001);
+        apiResponse.setMessage(exception.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiRespone> handlingAppException(AppException exception){
+    ResponseEntity<ApiResponse> handlingAppException(AppException exception){
         ErrorCode errorCode = exception.getErrorCode();
-        ApiRespone  apiRespone = new ApiRespone<>();
-        apiRespone.setCode(errorCode.getCode());
-        apiRespone.setMessage(errorCode.getMessage());
-        return ResponseEntity.badRequest().body(apiRespone);
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiRespone> handlingValidation(MethodArgumentNotValidException exception) {
+    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {
         String enumKey = exception.getFieldError().getDefaultMessage();
         ErrorCode errorCode = ErrorCode.INVALID_KEY;
 
@@ -38,11 +38,11 @@ public class GlobalExceptionHandler {
         }
 
 
-        ApiRespone  apiRespone = new ApiRespone<>();
-        apiRespone.setCode(errorCode.getCode());
-        apiRespone.setMessage(errorCode.getMessage());
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
 
-        return ResponseEntity.badRequest().body(apiRespone);
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
 
