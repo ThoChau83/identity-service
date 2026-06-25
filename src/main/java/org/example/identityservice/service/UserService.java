@@ -81,6 +81,6 @@ public class UserService {
 
     //Find 1 user by id
     public User getUser(String id){
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 }
