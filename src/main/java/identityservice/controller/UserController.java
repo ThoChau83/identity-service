@@ -46,6 +46,14 @@ public class UserController {
         return apiResponse;
      }
 
+    @GetMapping("/myInfo")
+    ApiResponse<User> getMyInfo (String userId){
+        ApiResponse<User> apiResponse =  new ApiResponse<>();
+        apiResponse.setResult(userService.getMyInfo());
+        return apiResponse;
+    }
+
+
      @PutMapping("/{userId}")
      ApiResponse<User> updateUser(@PathVariable("userId") String userId, @RequestBody @Valid UserUpdateRequest request){
         ApiResponse<User> apiResponse = new ApiResponse<>();
@@ -60,6 +68,8 @@ public class UserController {
          apiResponse.setResult("User has been deleted");
         return apiResponse;
      }
+
+
 
 
 }

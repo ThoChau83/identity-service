@@ -3,20 +3,27 @@ package identityservice.service;
 
 import identityservice.dto.request.UserCreationRequest;
 import identityservice.dto.request.UserUpdateRequest;
+import identityservice.dto.response.UserResponse;
 import identityservice.entity.User;
 import identityservice.enums.Role;
 import identityservice.exception.AppException;
 import identityservice.exception.ErrorCode;
 import identityservice.mapper.UserMapper;
 import identityservice.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserService {
     @Autowired
@@ -27,7 +34,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public User createUser(UserCreationRequest request){
-
 
         if(userRepository.existsByUsername(request.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -83,14 +89,26 @@ public class UserService {
          userRepository.deleteById(userid);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     //Find all user
     public List<User> getUser(){
+        log.info("In method get info");
         return userRepository.findAll();
     }
 
-
+    @PostAuthorize("returnObject.username == authentication.name")
     //Find 1 user by id
     public User getUser(String id){
         return userRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    }
+
+
+    public User getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        return  userRepository.findByUsername(name).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+
     }
 }
